@@ -36,9 +36,10 @@ docker exec -it <container id> <command>
 docker exec -it <container id> sh 
     accede a una terminal dentro del contenedor, de manera que podemos ejecutar comandos ahi dentro. util para debug.
 
-docker build -t eggop1992/<project name>:latest .
+docker build -t eggop1992/<project name>:latest . --progress=plain
     crea una nueva imagen a partir de un dockerfile. El . se usa para incluir el contexto en el build, que sera agregado a la imagen.
     -t xxx es una etiqueta para no tener que copiar el id extraño a cada rato. tiene como formato mi docker id (eggop1992), el repo/projecto que usamos (redis) y la version (latest | 1.0) 
+    incluir el --progress=plain para que aparezca todo el contenido del comando ya que en las ultimas versiones se oculta gran parte. Asi coincide con la version del curso.
 
 docker tag <container id> <tag>   
     el tag tiene que seguir la convencion de antes: mi docker id (eggop1992), el repo/projecto que usamos (redis) y la version (latest | 1.0) 
@@ -50,6 +51,21 @@ docker commit -c 'CMD ["<project name>"]' <container id>
 ----------------------------------------------------
 anotaciones del curso
 -----------------------------------------------------
+As mentioned earlier, Buildkit will hide away much of its progress which is something the legacy builder did not do. In the upcoming lectures will be discussing some output that will be quickly hidden by default. To see this output, you will want to pass the progress flag to the build command:
+
+docker build --progress=plain .
+
+Additionally, you can pass the no-cache flag to disable any caching:
+
+docker build --no-cache --progress=plain .
+
+Note - Do not try to use the no-cache flag with Lecture 47 Minimizing Cache Busting
+
+Disabling Buildkit to match course output
+To disable Buildkit, you can just pass the following variable to the build command:
+
+DOCKER_BUILDKIT=0 docker build .
+------------------------------------------------------------------------------
 
 
 In the upcoming lecture, we will be running a command to create a new image using docker commit with this command:
@@ -61,6 +77,7 @@ If you are a Windows user you may get an error like "/bin/sh: [redis-server]: no
 Instead, try running the command like this:
 
 docker commit -c "CMD 'redis-server'" CONTAINERID
+----------------------------------------------------------------------
 
 
 Students who have the most recent versions of Docker will now have Buildkit enabled by default. If so, you will notice a slightly different output in your terminal when building from a Dockerfile.
