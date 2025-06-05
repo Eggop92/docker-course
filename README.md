@@ -1,8 +1,9 @@
-docker run <image name> <command!>
+docker run -p <incoming port>:<inside port> <image name> <command!>
     ejecuta la imagen y crea un contenedor especifico. Se puede adjuntar un comando para lanzar el contenedor que sobreescriba el que viene por defecto en la imagen
     docker run busybox echo hi
     docker run -it busybox sh   
         Lanza el contenedor pero no ejecuta el comando por defecto. Esto puede hacer que no se lanza los posibles servidores.
+    con -p dirigimos el trafico de internet del puerto incoming al puerto dentro del contenedor, de esta manera podemos acceder al contenedor via web.
 
 docker ps
     muestra una lista con los contenedores activos en ese momento.
@@ -40,6 +41,7 @@ docker build -t eggop1992/<project name>:latest . --progress=plain
     crea una nueva imagen a partir de un dockerfile. El . se usa para incluir el contexto en el build, que sera agregado a la imagen.
     -t xxx es una etiqueta para no tener que copiar el id extraño a cada rato. tiene como formato mi docker id (eggop1992), el repo/projecto que usamos (redis) y la version (latest | 1.0) 
     incluir el --progress=plain para que aparezca todo el contenido del comando ya que en las ultimas versiones se oculta gran parte. Asi coincide con la version del curso.
+    cuando usas la version con alpine, esta no incluira bloatware, como otros gestores de contenido, git, etc, sera algo muy basico
 
 docker tag <container id> <tag>   
     el tag tiene que seguir la convencion de antes: mi docker id (eggop1992), el repo/projecto que usamos (redis) y la version (latest | 1.0) 
