@@ -50,6 +50,20 @@ docker commit -c 'CMD ["<project name>"]' <container id>
     crear una imagen a partir de un contendor existente al cual le hemos hecho un cambio en los ficheros y actualizamos el comando inicial. No es una practica comun.
 
 
+
+docker-compose up -d
+    es el equivalente a docker run. Ejecuta el fichero que esta en el directorio.
+    -d sirve para lanzarlo en background, asi tenemos la terminal libre para ejecutar otros comandos
+
+docker-compose up --build
+    es el equivalente a docker build. Construye los containers y los ejecuta siguiendo la descripcion del docker-compose-yml
+
+docker-compose down 
+    sirve para parar un conjunto de containers.
+
+docker-compose ps
+    es el equivalente al docker ps, pero solo incluye aquellos contenedores listados en el docker-compose.yml    
+
 ----------------------------------------------------
 anotaciones del curso
 -----------------------------------------------------
