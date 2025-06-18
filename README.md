@@ -62,8 +62,9 @@ docker-compose up -d
     es el equivalente a docker run. Ejecuta el fichero que esta en el directorio.
     -d sirve para lanzarlo en background, asi tenemos la terminal libre para ejecutar otros comandos
 
-docker-compose up --build
+docker-compose up -f docker-compose-dev.yml --build
     es el equivalente a docker build. Construye los containers y los ejecuta siguiendo la descripcion del docker-compose-yml
+    incluye el -f nombre.yml para cambiar el fichero default del compose
 
 docker-compose down 
     sirve para parar un conjunto de containers.
