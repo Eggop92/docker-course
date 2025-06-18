@@ -1,9 +1,11 @@
-docker run -p <incoming port>:<inside port> <image name> <command!>
+docker run -p <incoming port>:<inside port> -v <directory to reference>:<directory referenced> <image name> <command!>
     ejecuta la imagen y crea un contenedor especifico. Se puede adjuntar un comando para lanzar el contenedor que sobreescriba el que viene por defecto en la imagen
     docker run busybox echo hi
     docker run -it busybox sh   
         Lanza el contenedor pero no ejecuta el comando por defecto. Esto puede hacer que no se lanza los posibles servidores.
     con -p dirigimos el trafico de internet del puerto incoming al puerto dentro del contenedor, de esta manera podemos acceder al contenedor via web.
+    con -v añadimos una referencia del contenedor hacia nuestro codigo, de manera que no haya que hacer un build cada vez que cambiamos el código
+    por defecto podemos usar -v $(pwd):/app
 
 docker ps
     muestra una lista con los contenedores activos en ese momento.
@@ -37,11 +39,16 @@ docker exec -it <container id> <command>
 docker exec -it <container id> sh 
     accede a una terminal dentro del contenedor, de manera que podemos ejecutar comandos ahi dentro. util para debug.
 
-docker build -t eggop1992/<project name>:latest . --progress=plain
+docker attach <container id> 
+    permite enviar el input de la terminal al contenedor indicado, pudiendo asi interactuar con el contenedor ejecutandose.
+    No util con docker-compose
+
+docker build -t eggop1992/<project name>:latest -f Dockerfile.dev . --progress=plain
     crea una nueva imagen a partir de un dockerfile. El . se usa para incluir el contexto en el build, que sera agregado a la imagen.
     -t xxx es una etiqueta para no tener que copiar el id extraño a cada rato. tiene como formato mi docker id (eggop1992), el repo/projecto que usamos (redis) y la version (latest | 1.0) 
     incluir el --progress=plain para que aparezca todo el contenido del comando ya que en las ultimas versiones se oculta gran parte. Asi coincide con la version del curso.
     cuando usas la version con alpine, esta no incluira bloatware, como otros gestores de contenido, git, etc, sera algo muy basico
+    -f para incluir el nombre del dockerfile. cuando usamos 2 dockerfiles para dev/prod.
 
 docker tag <container id> <tag>   
     el tag tiene que seguir la convencion de antes: mi docker id (eggop1992), el repo/projecto que usamos (redis) y la version (latest | 1.0) 
@@ -62,7 +69,21 @@ docker-compose down
     sirve para parar un conjunto de containers.
 
 docker-compose ps
-    es el equivalente al docker ps, pero solo incluye aquellos contenedores listados en el docker-compose.yml    
+    es el equivalente al docker ps, pero solo incluye aquellos contenedores listados en el docker-compose.yml  
+
+
+
+Podemos crear dos Dockerfile, uno para dev y otro para prod, que ejecuten comandos distintos.
+    Dockerfile.dev
+    Dockerfile
+
+
+npm run start 
+    execute the server for dev
+npm run test  
+    run the tests
+npm run build  
+    get app ready for prod
 
 ----------------------------------------------------
 anotaciones del curso
